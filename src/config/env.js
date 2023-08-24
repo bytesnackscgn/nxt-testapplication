@@ -21,8 +21,10 @@ export const requiredEnvKeys = [
 	'REDIS_HOST',
 	'REDIS_PORT',
 	'REDIS_PASSWORD',
-	'GOOGLE_API_KEY_FILE',
-	'CLICKUP_TOKEN'
+	'CLICKUP_TOKEN',
+	'GOOGLE_CLIENT_ID',
+	'GOOGLE_CLIENT_SECRET',
+	'GOOGLE_CLIENT_REDIRECT_URL'
 ];
 
 export const env = {
@@ -31,7 +33,6 @@ export const env = {
 	REDIS_HOST: process.env?.REDIS_HOST ?? '127.0.0.1',
 	REDIS_PORT: process.env?.REDIS_PORT ? Number.parseInt(process.env.REDIS_PORT) : 6379,
 	REDIS_PASSWORD: process.env?.REDIS_PASSWORD,
-	//GOOGLE_API_KEY_FILE: process.env.GOOGLE_API_KEY_FILE ? path.resolve( path.dirname(path.resolve(__dirname, envPath)), `${process.env.GOOGLE_API_KEY_FILE}`): null,
 	GOOGLE_CLIENT_ID: process.env?.GOOGLE_CLIENT_ID,
 	GOOGLE_CLIENT_SECRET: process.env?.GOOGLE_CLIENT_SECRET,
 	GOOGLE_CLIENT_REDIRECT_URL: process.env?.GOOGLE_CLIENT_REDIRECT_URL,
