@@ -4,20 +4,25 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+/*
+const __filename = path.resolve(import.meta.url); // Resolve the URL to a file path
+const __dirname = path.dirname(__filename);
+*/
 
 let envPath;
 
 if (process.env.NODE_ENV === 'production') {
-	envPath = '../../.env.production';
+	envPath = '../.env.production';
 } else if (process.env.NODE_ENV === 'staging') {
-	envPath = '../../.env.staging';
+	envPath = '../.env.staging';
 } else {
-	envPath = '../../.env.development';
+	envPath = '../.env.development';
 }
 
 dotenv.config({ path: path.resolve(__dirname, envPath) });
 
 export const requiredEnvKeys = [
+	'PUBLIC_URL',
 	'REDIS_HOST',
 	'REDIS_PORT',
 	'REDIS_PASSWORD',
@@ -29,6 +34,7 @@ export const requiredEnvKeys = [
 
 export const env = {
 	PUBLIC_URL: process.env?.PUBLIC_URL,
+	API_SECRET_KEY: process.env?.API_SECRET_KEY,
 	API_PORT: process.env?.API_PORT ? Number.parseInt(process.env.API_PORT) : 3000,
 	REDIS_HOST: process.env?.REDIS_HOST ?? '127.0.0.1',
 	REDIS_PORT: process.env?.REDIS_PORT ? Number.parseInt(process.env.REDIS_PORT) : 6379,
@@ -41,7 +47,7 @@ export const env = {
 
 export function evaluateEnv() {
 	// eslint-disable-next-line no-undef
-	for (i in requiredEnvKeys) {
+	for (let i in requiredEnvKeys) {
 		// eslint-disable-next-line no-undef
 		const key = requiredEnvKeys[i];
 		if (!process.env[key]) {

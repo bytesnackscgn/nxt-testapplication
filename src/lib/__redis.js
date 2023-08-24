@@ -1,3 +1,6 @@
+/*
+* Class is not neaded right now
+*/
 import { createClient } from 'redis';
 import { config as redisConfig } from '../config/redis.js';
 

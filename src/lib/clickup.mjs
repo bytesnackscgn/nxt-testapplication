@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { env } from '../config/env.js';
+import { env } from '../config/env.mjs';
 
 export class ClickUp {
 	client;
@@ -33,7 +33,7 @@ export class ClickUp {
 
 	async getTask(taskId){
 		try {
-			const { data } = await this.client.post(`/task/${taskId}`);
+			const { data } = await this.client.get(`/task/${taskId}`);
 			return data;
 		} catch (error) {
 			console.error(error.message);
@@ -58,7 +58,7 @@ export class ClickUp {
 	*/
 	async getSpaces(team_id) {
 		try {
-			const { data } = await this.client.get(`team/${team_id}/space?archived=false`);
+			const { data } = await this.client.get(`/team/${team_id}/space?archived=false`);
 			return data;
 		} catch (error) {
 			console.error(error.message);
@@ -115,6 +115,7 @@ export class ClickUp {
 				}
 			}
 			this.mySpace = await this.getMySpace();
+			return await this.mySpace;
 		}catch(error){
 			console.error(error);
 			return false;
@@ -171,7 +172,7 @@ export class ClickUp {
 						if (!this.doesCustomWebhookExist(currentList.id)) {
 							try{
 								const newWebhook = await this.newWebhook(this.mySpace[i].id, {
-									endpoint: `${env.PUBLIC_URL}/clickup-webhook`,
+									endpoint: `${env.PUBLIC_URL}/clickup/webhook`,
 									events: [
 										'taskCreated',
 										'taskCommentPosted',
@@ -187,6 +188,7 @@ export class ClickUp {
 			}
 		}
 		this.mySpace = await this.getMySpace();
+		return this.mySpace
 	}
 }
 
@@ -196,8 +198,6 @@ export async function demo() {
 	console.log(mySpace[0].webhooks);
 	await clickup.createCustomWebHooks();
 	console.log(mySpace[0].webhooks);
-	await clickup.removeAllWebhooks();
-	console.log(mySpace[0].webhooks);
+	//await clickup.removeAllWebhooks();
+	//console.log(mySpace[0].webhooks);
 }
-
-demo();

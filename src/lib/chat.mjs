@@ -1,42 +1,9 @@
-/*
-import { auth } from 'google-auth-library';
-import { google } from 'googleapis';
-import chat from '@googleapis/chat'
-import { env } from '../config/env.js';
-*/
-
 export class GChat {
 	api;
 
 	constructor(api) {
 		this.api = api;
 	}
-
-	/*
-	async init() {
-	  try{
-		  const auth = new chat.auth.GoogleAuth({
-			  email: 'nxt-chat@nxt-396819.iam.gserviceaccount.com',
-			  delegationEmail: 'gcp@bytesnacks.de',
-			  keyFile: env.GOOGLE_API_KEY_FILE,
-			  scopes: [
-				  'https://www.googleapis.com/auth/chat.bot',
-				  'https://www.googleapis.com/auth/chat.spaces',
-				  'https://www.googleapis.com/auth/chat.spaces.create',
-				  'https://www.googleapis.com/auth/chat.memberships',
-				  'https://www.googleapis.com/auth/chat.messages'
-			  ],
-			});
-			
-			const authClient = await auth.getClient();
-  
-			this.api = await chat.chat({ version: 'v1', auth: authClient });
-			return true;
-	  }catch(error){
-		  console.log(error.message);
-		  return false;
-	  }
-	}*/
 
 	async getSpaces() {
 		try {
@@ -93,11 +60,12 @@ export class GChat {
 	async createSpace(data) {
 		try {
 			const response = await this.api.spaces.create({
+				requestId: `${data.requestId}`,
 				requestBody: {
-					requestId: `${data.requestId}`,
 					displayName: `${data.displayName}`,
 					externalUserAllowed: false,
 					singleUserBotDm: false,
+					name: `spaces/${data.requestId}`,
 					spaceDetails: {
 						description: `${data.description}`,
 					},
@@ -128,23 +96,4 @@ export class GChat {
 			return false;
 		}
 	}
-
-	/*
-	doc: [
-		"https://clickup.com/api/developer-portal/webhooktaskpayloads/#taskcreated-payload",
-		"https://clickup.com/api/developer-portal/webhooktaskpayloads/#taskcommentposted-payload",
-	]
-	*/
-
-	async processComment(spaceId, payload) {}
 }
-
-/*
-  const gchat = new GChat();
-  console.log(await gchat.init());
-  console.log(await gchat.getSpaces());
-  console.log(await gchat.createSpace({
-	  displayName: 'TEST',
-	  description: 'Testdescription'
-  }));
-  */

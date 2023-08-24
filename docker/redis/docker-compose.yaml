@@ -14,10 +14,10 @@ services:
     #   code and print a message, when the variable is not set or empty
     - redis-server --requirepass "$${REDIS_PASSWORD:?REDIS_PASSWORD variable is not set}" --maxclients 100 --protected-mode no --timeout 60 --tcp-keepalive 180 --loglevel warning
     ports:
-      - ${REDIS_HOST_BINDING}:${REDIS_PORT}:6379
+      - 127.0.0.1:6379:6379
     volumes:
       - ./data/redis:/data
-      - ./data/redis.conf:/usr/local/etc/redis/redis.conf
-    env_file: ../../.env
+      #- ./data/redis.conf:/usr/local/etc/redis/redis.conf
+    env_file: ../../.env.development
     networks:
       - default
