@@ -3,7 +3,7 @@ module.exports = {
 		{
 			name: 'nxt-testapplication',
 			port: 3000,
-			instances: '1',
+			//instances: '1',
 			exec_mode: 'fork',
 			script: './dist/index.js',
 			env: {
